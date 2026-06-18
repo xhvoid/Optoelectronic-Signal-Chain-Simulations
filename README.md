@@ -2,11 +2,16 @@
 
 [![tests](https://github.com/xhvoid/Optoelectronic-Signal-Chain-Simulations/actions/workflows/ci.yml/badge.svg)](https://github.com/xhvoid/Optoelectronic-Signal-Chain-Simulations/actions/workflows/ci.yml)
 
-Photonics and optoelectronics simulations for detector, laser,
-LiDAR, imaging sensor, and spectrometer engineering workflows.
+Python simulations for photonics and optoelectronic signal chains: detector
+front ends, laser thermal control, ToF LiDAR detection, camera sensors, and
+spectrometer calibration.
 
-The notebooks are written as engineering case studies. Each one follows the same
-structure:
+The point of this repo is to make the engineering trade-offs visible. The
+models are compact on purpose: enough physics to expose units, noise scaling,
+parameter sensitivity, and failure modes, without pretending to be a vendor
+design tool.
+
+Each notebook follows the same case-study structure:
 
 1. Engineering problem
 2. Physical assumptions
@@ -20,6 +25,10 @@ structure:
 
 ## Featured Engineering Figures
 
+The basic formula checks are inside the notebooks. The figures below are the
+ones I would actually want to discuss in an engineering review: where the noise
+comes from, where the design breaks, and what knob buys performance.
+
 ### Photodetector / APD Receiver
 
 <table>
@@ -27,15 +36,15 @@ structure:
 <td width="50%">
 <img src="figures/featured_01_detector_noise_budget.png" alt="Photodetector noise budget">
 <br><strong>Detector noise budget.</strong> Separates signal shot noise,
-thermal noise, dark-current noise, read noise, and total RMS current noise. This
-is the key diagnostic plot for deciding whether sensitivity is limited by the
-detector physics, the load/TIA front end, or the electronics floor.
+thermal noise, dark-current noise, read noise, and total RMS current noise.
+Useful for checking whether the limit is the diode physics, the load/TIA
+front end, leakage current, or the electronics floor.
 </td>
 <td width="50%">
 <img src="figures/featured_01_snr_design_map.png" alt="Photodetector SNR design map">
 <br><strong>SNR design map.</strong> Shows SNR contours versus optical power and
-bandwidth. This is a design-review figure: it converts a target SNR and required
-bandwidth into a minimum optical power or detector/front-end requirement.
+bandwidth. This turns a target SNR and required bandwidth into a minimum optical
+power or front-end requirement.
 </td>
 </tr>
 </table>
@@ -47,15 +56,16 @@ bandwidth into a minimum optical power or detector/front-end requirement.
 <td width="50%">
 <img src="figures/featured_02_tec_control_response.png" alt="Laser TEC PID control response">
 <br><strong>TEC control response.</strong> Compares no control, proportional
-control, and full PID control after an ambient temperature step. It demonstrates
-stability metrics such as steady-state error, settling behavior, control effort,
-and wavelength stability through temperature.
+control, and full PID control after an ambient temperature step. The same plot
+shows temperature error, settling behavior, control effort, and the wavelength
+consequence of thermal drift.
 </td>
 <td width="50%">
 <img src="figures/featured_02_tec_authority_failure.png" alt="Laser TEC authority failure">
 <br><strong>TEC authority failure.</strong> Shows the heat-load point where the
-controller saturates and temperature error can no longer be regulated away. This
-is a practical actuator-sizing plot for laser packages and thermal test setups.
+controller saturates and temperature error can no longer be regulated away.
+No PID tuning fixes missing cooling authority; the actuator has to be sized for
+the heat load.
 </td>
 </tr>
 </table>
@@ -67,16 +77,16 @@ is a practical actuator-sizing plot for laser packages and thermal test setups.
 <td width="50%">
 <img src="figures/featured_03_lidar_roc_threshold.png" alt="LiDAR ROC and threshold trade-off">
 <br><strong>ROC and threshold trade-off.</strong> Connects detector electrons,
-noise sigma, threshold choice, detection probability, and false alarm rate. This
-is more industrially useful than quoting SNR alone because it supports threshold
-selection for a specified false-positive budget.
+noise sigma, threshold choice, detection probability, and false alarm rate.
+This is the step beyond "SNR looks OK": it supports threshold selection for a
+specified false-positive budget.
 </td>
 <td width="50%">
 <img src="figures/featured_03_lidar_aperture_bandwidth_map.png" alt="LiDAR aperture bandwidth SNR map">
 <br><strong>Aperture-bandwidth SNR map.</strong> Shows SNR at a fixed range as a
-function of receiver aperture and detector bandwidth. This exposes the trade
-between photon collection, timing bandwidth, package size, cost, and receiver
-noise requirements.
+function of receiver aperture and detector bandwidth. It puts photon collection,
+timing bandwidth, package size, cost, and receiver-noise pressure on the same
+map.
 </td>
 </tr>
 </table>
@@ -89,15 +99,14 @@ noise requirements.
 <img src="figures/featured_04_camera_noise_dynamic_range.png" alt="Camera noise budget and dynamic range">
 <br><strong>Camera noise and dynamic range.</strong> Breaks the electron-domain
 noise budget into photon shot noise, dark noise, read noise, and quantization
-noise. It shows where the sensor transitions from read-noise limited to
-shot-noise limited, and where full-well capacity sets the ceiling.
+noise. This is the view I want before changing exposure time, sensor gain, ADC
+depth, or illumination.
 </td>
 <td width="50%">
 <img src="figures/featured_04_camera_adc_tradeoff.png" alt="Camera ADC bit depth trade-off">
 <br><strong>ADC bit-depth trade-off.</strong> Compares quantization noise with
-read noise and full-well capacity. It shows when adding ADC bits improves the
-signal chain and when it is only digital precision beyond the analog noise
-floor.
+read noise and full-well capacity. Extra ADC bits help only until quantization
+drops below the analog noise floor.
 </td>
 </tr>
 </table>
@@ -109,30 +118,28 @@ floor.
 <td width="50%">
 <img src="figures/featured_05_calibration_residuals.png" alt="Spectrometer wavelength calibration residuals">
 <br><strong>Wavelength calibration residuals.</strong> Shows the fitted
-pixel-to-wavelength calibration and residual error in picometers. This is a
-metrology-facing figure because it reports calibration quality instead of only a
-pretty spectrum.
+pixel-to-wavelength calibration and residual error in picometers. A metrology
+workflow needs this residual plot, not just a calibrated-looking spectrum.
 </td>
 <td width="50%">
 <img src="figures/featured_05_peak_fitting_uncertainty.png" alt="Spectrometer peak fitting with noise and baseline">
 <br><strong>Peak fitting with uncertainty.</strong> Compares Gaussian,
-Lorentzian, and Voigt fits under baseline and detector noise. It demonstrates
-model selection, center estimation, and uncertainty reporting for spectroscopy
-or laser-characterization workflows.
+Lorentzian, and Voigt fits under baseline and detector noise. The fitted center
+depends on the assumed line-spread function, so the model choice has to be part
+of the measurement.
 </td>
 </tr>
 <tr>
 <td width="50%">
 <img src="figures/featured_05_unresolved_doublet_failure.png" alt="Spectrometer unresolved doublet failure">
 <br><strong>Unresolved doublet failure.</strong> Quantifies how two close lines
-can bias a single-peak fit before visual separation is obvious. This is the kind
-of failure-regime plot needed for analytical instruments and optical metrology.
+can bias a single-peak fit before the spectrum obviously looks split.
 </td>
 <td width="50%">
 <img src="figures/featured_05_resolution_throughput_tradeoff.png" alt="Spectrometer resolution throughput trade-off">
 <br><strong>Resolution-throughput trade-off.</strong> Shows how slit width
-changes line width, resolving power, and relative SNR. This links optical
-hardware choices to measurement performance.
+changes line width, resolving power, and relative SNR. It is a compact way to
+talk about slit choice as a hardware-performance trade-off.
 </td>
 </tr>
 </table>
@@ -183,15 +190,20 @@ jupyter lab
 
 ## Reproducibility
 
-The notebooks are the narrative layer, while `src/` contains reusable models,
-`examples/` contains command-line demos, `scripts/` regenerates notebook and
-README artifacts, and `tests/` checks core physical behavior.
+The notebooks are for explanation. The reusable model code lives in `src/`, the
+command-line demos are in `examples/`, artifact helpers are in `scripts/`, and
+the sanity checks are in `tests/`.
 
 ```bash
-python examples/run_detector_sweep.py
-python examples/run_laser_pid_demo.py
-python examples/generate_featured_figures.py
+python examples/run_detector_sweep.py        # writes PNG/CSV outputs
+python examples/run_laser_pid_demo.py        # writes PNG/CSV outputs
+python examples/generate_featured_figures.py # extracts README figures
 ```
+
+The first two commands are normal headless simulations and are smoke-tested in
+GitHub Actions. `generate_featured_figures.py` assumes the notebooks already
+contain rendered PNG outputs; it extracts those images, it does not rerun the
+notebooks from scratch.
 
 ## Engineering Themes
 
@@ -202,14 +214,15 @@ python examples/generate_featured_figures.py
 - Spectrometer calibration, resolution, peak fitting, and uncertainty
 
 The models are intentionally compact rather than vendor-specific. They are meant
-to demonstrate practical signal-chain reasoning: units, assumptions, scaling
+to keep the signal-chain reasoning easy to inspect: units, assumptions, scaling
 laws, failure regimes, and design trade-offs.
 
 ## Validation and Limitations
 
-These models are compact engineering simulations, not vendor-specific design
-tools. They are intended to demonstrate signal-chain reasoning, parameter
-sensitivity, noise scaling, and failure regimes.
+These are engineering learning models, not product design tools. I would use
+them to reason about scaling and failure modes, then replace parts of the model
+with vendor data, measured transfer functions, or a more detailed optical,
+electrical, or thermal model for real hardware work.
 
 Main limitations:
 
