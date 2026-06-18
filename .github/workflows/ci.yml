@@ -22,3 +22,8 @@ jobs:
 
       - name: Run tests
         run: pytest -q
+
+      - name: Run example scripts
+        run: |
+          python examples/run_detector_sweep.py --output-dir /tmp/detector_sweep
+          python examples/run_laser_pid_demo.py --output-dir /tmp/laser_pid
