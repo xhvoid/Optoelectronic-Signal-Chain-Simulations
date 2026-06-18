@@ -24,9 +24,6 @@ allocation, design maps, control stability, threshold decisions, calibration
 quality, and failure regimes. Simpler formula-check plots remain inside the
 notebooks.
 
-These PNGs are extracted from the executed notebooks with
-`scripts/extract_featured_figures.py`.
-
 ### Photodetector / APD Receiver
 
 <table>
