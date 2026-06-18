@@ -193,9 +193,6 @@ python examples/run_laser_pid_demo.py
 python examples/generate_featured_figures.py
 ```
 
-Generated example outputs are written to `figures/generated/`, which is ignored
-by Git so the repository stays focused on curated portfolio figures.
-
 ## Engineering Themes
 
 - Photodetector/APD SNR, bandwidth, and saturation limits
