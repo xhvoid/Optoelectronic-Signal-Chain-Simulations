@@ -2,7 +2,7 @@
 
 [![tests](https://github.com/xhvoid/Optoelectronic-Signal-Chain-Simulations/actions/workflows/ci.yml/badge.svg)](https://github.com/xhvoid/Optoelectronic-Signal-Chain-Simulations/actions/workflows/ci.yml)
 
-Portfolio-style photonics and optoelectronics simulations for detector, laser,
+Photonics and optoelectronics simulations for detector, laser,
 LiDAR, imaging sensor, and spectrometer engineering workflows.
 
 The notebooks are written as engineering case studies. Each one follows the same
@@ -19,12 +19,6 @@ structure:
 9. Key engineering conclusions
 
 ## Featured Engineering Figures
-
-The README highlights the figures that are most useful in an interview or
-portfolio review. I selected plots that show engineering judgment: noise
-allocation, design maps, control stability, threshold decisions, calibration
-quality, and failure regimes. Simpler formula-check plots remain inside the
-notebooks.
 
 ### Photodetector / APD Receiver
 
