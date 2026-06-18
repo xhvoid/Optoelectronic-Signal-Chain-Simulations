@@ -27,6 +27,20 @@ def test_photodetector_saturation_limits_signal_current():
     assert 0 < budget["signal_current_a"][0] <= params.saturation_current_a
 
 
+def test_detector_snr_improves_with_optical_power_before_saturation():
+    params = PhotodetectorParams(saturation_current_a=1.0, bandwidth_hz=5e6)
+    powers = np.array([1e-10, 1e-9, 1e-8])
+    budget = photodetector_noise_budget(powers, params, saturate=False)
+    assert np.all(np.diff(budget["snr_linear"]) > 0)
+
+
+def test_lidar_return_decreases_with_range():
+    params = LidarParams()
+    ranges = np.array([20.0, 40.0, 80.0])
+    returns = lidar_return_energy(ranges, params, model="diffuse_extended")
+    assert np.all(np.diff(returns) < 0)
+
+
 def test_lidar_small_target_range_scaling_is_steeper_than_extended():
     params = LidarParams(beam_divergence_rad=10e-3, target_area_m2=0.01)
     near, far = 20.0, 40.0
