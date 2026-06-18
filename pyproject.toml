@@ -1,0 +1,9 @@
+[project]
+name = "optoelectronic-signal-chain-simulations"
+version = "0.1.0"
+description = "Portfolio simulations for optoelectronic signal-chain engineering."
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

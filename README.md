@@ -1,5 +1,7 @@
 # Optoelectronic Signal Chain Simulations
 
+[![tests](https://github.com/xhvoid/Optoelectronic-Signal-Chain-Simulations/actions/workflows/ci.yml/badge.svg)](https://github.com/xhvoid/Optoelectronic-Signal-Chain-Simulations/actions/workflows/ci.yml)
+
 Portfolio-style photonics and optoelectronics simulations for detector, laser,
 LiDAR, imaging sensor, and spectrometer engineering workflows.
 
@@ -145,7 +147,11 @@ hardware choices to measurement performance.
 
 ```text
 .
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 ├── README.md
+├── pyproject.toml
 ├── requirements.txt
 ├── src/
 │   ├── __init__.py
@@ -160,6 +166,13 @@ hardware choices to measurement performance.
 │   ├── 03_tof_lidar_link_budget_detection.ipynb
 │   ├── 04_cmos_camera_noise_dynamic_range_mtf.ipynb
 │   └── 05_spectrometer_resolution_calibration_peak_fitting.ipynb
+├── examples/
+│   ├── run_detector_sweep.py
+│   ├── run_laser_pid_demo.py
+│   └── generate_featured_figures.py
+├── scripts/
+│   ├── generate_notebooks.py
+│   └── extract_featured_figures.py
 ├── tests/
 └── figures/
 ```
@@ -170,9 +183,24 @@ hardware choices to measurement performance.
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-pytest
+python -m pytest
 jupyter lab
 ```
+
+## Reproducibility
+
+The notebooks are the narrative layer, while `src/` contains reusable models,
+`examples/` contains command-line demos, `scripts/` regenerates notebook and
+README artifacts, and `tests/` checks core physical behavior.
+
+```bash
+python examples/run_detector_sweep.py
+python examples/run_laser_pid_demo.py
+python examples/generate_featured_figures.py
+```
+
+Generated example outputs are written to `figures/generated/`, which is ignored
+by Git so the repository stays focused on curated portfolio figures.
 
 ## Engineering Themes
 
@@ -185,6 +213,26 @@ jupyter lab
 The models are intentionally compact rather than vendor-specific. They are meant
 to demonstrate practical signal-chain reasoning: units, assumptions, scaling
 laws, failure regimes, and design trade-offs.
+
+## Validation and Limitations
+
+These models are compact engineering simulations, not vendor-specific design
+tools. They are intended to demonstrate signal-chain reasoning, parameter
+sensitivity, noise scaling, and failure regimes.
+
+Main limitations:
+
+- Detector models use simplified RMS noise budgets and do not include a full
+  transimpedance-amplifier frequency response or layout/parasitic model.
+- Laser thermal simulations use a lumped first-order thermal model rather than a
+  spatial package, mount, and TEC finite-element model.
+- LiDAR return models use simplified geometric spreading, diffuse-target
+  assumptions, and Gaussian threshold detection.
+- Camera simulations use simplified PRNU, hot-pixel, read-noise, dark-current,
+  and quantization models.
+- Spectrometer models are intended for calibration and fitting intuition, not
+  full optical design, stray-light analysis, or vendor-grade instrument
+  qualification.
 
 ## License
 

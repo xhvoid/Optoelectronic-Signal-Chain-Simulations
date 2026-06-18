@@ -6,5 +6,6 @@ __pycache__/
 *.pyc
 figures/*.png
 figures/*.pdf
+figures/generated/
 !figures/.gitkeep
 !figures/featured_*.png
